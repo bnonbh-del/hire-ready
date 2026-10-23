@@ -40,7 +40,7 @@ export async function SiteFooter({ locale }: { locale: Locale }) {
 
         <div>
           <h2 className="text-base font-semibold">{d.footer.pages}</h2>
-          <ul className="mt-4 space-y-2.5 text-[15px]">
+          <ul className="mt-4 space-y-2.5 text-sm">
             {navItems(partners.length > 0, locale).map((item) => (
               <li key={item.href}>
                 <Link href={item.href} className={link}>
@@ -53,7 +53,7 @@ export async function SiteFooter({ locale }: { locale: Locale }) {
 
         <div>
           <h2 className="text-base font-semibold">{d.footer.contact}</h2>
-          <ul className="mt-4 space-y-3 text-[15px]">
+          <ul className="mt-4 space-y-3 text-sm">
             {settings?.phone_primary && (
               <li className="flex items-center gap-2.5">
                 <Phone size={16} className="shrink-0 text-accent-500" aria-hidden="true" />

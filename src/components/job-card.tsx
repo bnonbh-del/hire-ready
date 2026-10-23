@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { ArrowLeft, Briefcase, Languages, MapPin, Wallet } from "lucide-react";
 import { Bidi } from "@/components/bidi";
-import { jobTypeLabel, localePath, t, type Locale } from "@/lib/i18n";
+import { departmentLabel, jobTypeLabel, localePath, t, type Locale } from "@/lib/i18n";
 import { jobText } from "@/lib/job-display";
 import type { JobListItem } from "@/lib/public-data";
 
@@ -23,59 +22,48 @@ export function postedAgo(publishedAt: string | null, now: number, locale: Local
 /*
  * A job in a list (home page, /jobs), in the page language. The whole card is
  * the link. A job without an English copy shows its Arabic text (right to
- * left) on English pages, with an "Available in Arabic only" tag.
- * Hover: lifts, gets the logo-gradient border, the arrow moves (globals.css).
+ * left) on English pages, with an "Available in Arabic only" note.
  */
 export function JobCard({ job, now, locale }: { job: JobListItem; now: number; locale: Locale }) {
   const d = t(locale);
   const view = jobText(job, locale);
   const posted = postedAgo(job.published_at, now, locale);
+  const department = departmentLabel(job.department, locale);
 
   return (
-    <article className="reveal card-lift relative flex flex-col rounded-2xl p-5 md:p-6">
-      {view.fallback && (
-        <p className="mb-3 inline-flex items-center gap-1.5 self-start rounded-full bg-accent-50 px-2.5 py-0.5 text-xs font-medium text-accent-700">
-          <Languages size={14} aria-hidden="true" />
-          {d.otherLanguageOnly}
-        </p>
-      )}
-      <div lang={view.lang} dir={view.dir}>
-        <h3 className="font-display text-lg font-semibold leading-snug">
-          <Link href={localePath(locale, `/jobs/${job.slug}`)} className="after:absolute after:inset-0 after:rounded-2xl">
-            <Bidi text={view.title} />
-          </Link>
-        </h3>
-        <p className="mt-1 text-[15px] text-ink-soft">
-          <Bidi text={view.company} />
-        </p>
+    <article className="reveal card-lift relative flex flex-col rounded-xl p-5">
+      <div className="flex items-start justify-between gap-4">
+        <div lang={view.lang} dir={view.dir} className="min-w-0">
+          <h3 className="text-lg font-semibold leading-snug">
+            <Link href={localePath(locale, `/jobs/${job.slug}`)} className="after:absolute after:inset-0 after:rounded-xl">
+              <Bidi text={view.title} />
+            </Link>
+          </h3>
+          <p className="mt-1 text-sm font-medium text-ink-soft">
+            <Bidi text={view.company} />
+          </p>
+        </div>
+        {posted && <span className="shrink-0 pt-0.5 text-xs text-muted">{posted}</span>}
       </div>
 
-      <ul className="mb-5 mt-4 space-y-1.5 text-[15px] text-ink-soft">
-        <li className="flex items-center gap-2">
-          <MapPin size={16} className="shrink-0 text-brand-500" aria-hidden="true" />
-          <span lang={view.lang}>{view.location}</span>
-        </li>
-        <li className="flex items-center gap-2">
-          <Briefcase size={16} className="shrink-0 text-brand-500" aria-hidden="true" />
-          {jobTypeLabel(job.job_type, locale)}
-        </li>
-        {view.salary && (
-          <li className="flex items-center gap-2">
-            <Wallet size={16} className="shrink-0 text-brand-500" aria-hidden="true" />
-            <span lang={view.lang} dir={view.dir}>
-              <Bidi text={view.salary} />
-            </span>
-          </li>
+      <p className="mt-3 text-sm text-muted">
+        <span lang={view.lang}>{view.location}</span>
+        <span className="mx-1.5" aria-hidden="true">·</span>
+        {jobTypeLabel(job.job_type, locale)}
+      </p>
+
+      <div className="mt-auto flex flex-wrap items-end justify-between gap-x-4 gap-y-2 pt-4">
+        {view.salary ? (
+          <p className="text-sm font-semibold tabular-nums text-ink" lang={view.lang} dir={view.dir}>
+            <Bidi text={view.salary} />
+          </p>
+        ) : (
+          <span />
         )}
-      </ul>
-
-      <div className="mt-auto flex items-center justify-between gap-3 border-t border-line pt-4 text-sm">
-        <span className="text-muted">{posted && `${d.jobCard.posted} ${posted}`}</span>
-        <span className="inline-flex items-center gap-1.5 font-medium text-brand-700" aria-hidden="true">
-          {d.jobCard.details}
-          <ArrowLeft size={16} className="card-arrow" />
-        </span>
+        {department && <span className="rounded-md bg-surface px-2 py-0.5 text-xs text-ink-soft">{department}</span>}
       </div>
+
+      {view.fallback && <p className="mt-3 text-xs text-accent-700">{d.otherLanguageOnly}</p>}
     </article>
   );
 }

@@ -68,7 +68,7 @@ const CONTENT_BY_LOCALE = {
     hero: {
       before: "",
       highlight: "وظيفتك الجاية",
-      after: " تبدي من هنا.",
+      after: " تبدي من هنا",
       text: "وظائف حقيقية بشركات عراقية، نتابعها بنفسنا من أول اتصال لحد يوم المباشرة. دوّر على اللي يناسبك، وقدّم بدقيقتين.",
     },
     /** "شلون تقدّم؟" on the home page. */
@@ -101,7 +101,7 @@ const CONTENT_BY_LOCALE = {
     hero: {
       before: "Your ",
       highlight: "next job",
-      after: " starts here.",
+      after: " starts here",
       text: "Real jobs at Iraqi companies, followed up by our team from the first call to your first day. Find what fits you and apply in two minutes.",
     },
     applySteps: [

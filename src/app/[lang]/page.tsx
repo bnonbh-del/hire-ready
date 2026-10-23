@@ -95,7 +95,7 @@ function Hero({ locale }: { locale: Locale }) {
           parts={[{ text: hero.before }, { text: hero.highlight, highlight: true }, { text: hero.after }]}
           // 700 is lighter than the old heading font's 800, so the title is a bit bigger (40/60px instead of 36/56).
           // Negative tracking only in English: spacing Arabic letters apart would break their joins.
-          className="max-w-4xl text-[2.5rem] font-bold leading-[1.2] ltr:tracking-[-0.02em] md:text-[3.75rem]"
+          className="max-w-4xl text-[2.5rem] font-bold leading-[1.3] ltr:tracking-[-0.02em] md:text-[3.75rem]"
         />
         <p className="mt-5 max-w-2xl text-on-navy-soft md:text-lg">{hero.text}</p>
         <p className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-on-navy">

@@ -122,7 +122,7 @@ function FounderCard({ founder, linkedinLabel }: { founder: FounderCardData; lin
           </div>
           {founder.bio && (
             <div className="founder-bio">
-              <p className="overflow-hidden text-[15px] leading-7 text-on-navy-soft">
+              <p className="overflow-hidden text-sm leading-7 text-on-navy-soft">
                 <span className="block pt-3">{founder.bio}</span>
               </p>
             </div>

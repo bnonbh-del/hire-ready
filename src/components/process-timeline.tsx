@@ -21,7 +21,7 @@ export function ProcessTimeline({ steps, onNavy = false }: { steps: readonly Tim
           <span className={`text-2xl font-bold leading-none ${onNavy ? "text-accent-500" : "text-brand-700"}`}>{i + 1}</span>
           <div>
             <h3 className="text-lg font-semibold">{step.title}</h3>
-            <p className={`mt-1 text-[15px] ${onNavy ? "text-on-navy-soft" : "text-ink-soft"}`}>{step.text}</p>
+            <p className={`mt-1 text-sm ${onNavy ? "text-on-navy-soft" : "text-ink-soft"}`}>{step.text}</p>
           </div>
         </li>
       ))}

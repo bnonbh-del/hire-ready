@@ -24,13 +24,14 @@ export type JobListItem = Pick<
   | "area"
   | "area_en"
   | "job_type"
+  | "department"
   | "salary"
   | "salary_en"
   | "published_at"
 >;
 
 const LIST_COLUMNS =
-  "id, slug, title, title_en, company_name, company_name_en, hide_company, governorate, area, area_en, job_type, salary, salary_en, published_at";
+  "id, slug, title, title_en, company_name, company_name_en, hide_company, governorate, area, area_en, job_type, department, salary, salary_en, published_at";
 
 export interface JobFilters {
   q: string;
