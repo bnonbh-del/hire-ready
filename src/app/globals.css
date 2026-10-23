@@ -1,0 +1,589 @@
+@import "tailwindcss";
+
+/*
+ * Hire Ready theme. Every color is a CSS variable with a light and a dark
+ * value (data-theme on <html>, set before paint by the root layouts), and
+ * Tailwind's own palette is removed (--color-*: initial) so only the brand
+ * colors exist: nothing off-brand (no cyan, no purple) can slip in.
+ *
+ * Logo colors (fixed in both modes): teal #3F8F86 (the "H"), blue #5FA8D8
+ * (the "R"), dark green-navy #0E3A3B (the wordmark). The logo gradient runs
+ * teal -> blue, left to right, like H -> R (used only in the logo itself).
+ *
+ * Contrast: white text sits on --hr-primary (6.2:1 light, 5:1 dark) or the
+ * navy; teal/blue are for icons, borders, large display text.
+ */
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  color-scheme: light;
+  --hr-logo-teal: #3f8f86;
+  --hr-logo-blue: #5fa8d8;
+  --hr-navy: #0e3a3b;
+
+  --hr-page: #ffffff;
+  --hr-surface: #f5f8f8;
+  --hr-mist: #eef4f4;
+  --hr-card: #ffffff;
+  --hr-line: #e1e8e8;
+  --hr-field: #7f9192;
+
+  --hr-ink: #0e3a3b;
+  --hr-ink-soft: #3e5a5b;
+  --hr-muted: #5e7374;
+
+  --hr-brand-50: #eef5f4;
+  --hr-brand-100: #d9eae8;
+  --hr-brand-700: #2b6b65; /* teal text on light backgrounds */
+  --hr-brand-800: #225651;
+  --hr-accent-50: #eef5fb;
+  --hr-accent-600: #3f7fbf;
+  --hr-accent-700: #2f669e; /* links */
+
+  --hr-primary: #2b6b65; /* button background (white text) */
+  --hr-primary-hover: #225651;
+  --hr-primary-2: #2f669e;
+
+  /* Navy sections (hero, footer...) look the same in both modes. */
+  --hr-on-navy: #ffffff;
+  --hr-on-navy-soft: #c3d8d5;
+
+  --hr-danger: #b42318;
+  --hr-danger-50: #fdf0ef;
+
+  --hr-shadow: 14 58 59;
+
+  /* Behind partner logos: logos are made for light backgrounds, so the
+     plate stays light in dark mode too (slightly dimmed). */
+  --hr-logo-plate: #ffffff;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --hr-page: #0b1f20;
+  --hr-surface: #0f2728;
+  --hr-mist: #10292a;
+  --hr-card: #12302f;
+  --hr-line: #24484a;
+  --hr-field: #6f9192;
+
+  --hr-ink: #e6f0ef;
+  --hr-ink-soft: #bcd0ce;
+  --hr-muted: #93abaa;
+
+  --hr-brand-50: #143c3a;
+  --hr-brand-100: #1d4f4b;
+  --hr-brand-700: #7cc7bd;
+  --hr-brand-800: #a3dad2;
+  --hr-accent-50: #15324a;
+  --hr-accent-600: #7db8e3;
+  --hr-accent-700: #8cc4ea;
+
+  --hr-primary: #22655f;
+  --hr-primary-hover: #1c5550;
+  --hr-primary-2: #285d91;
+
+  --hr-danger: #ff8a80;
+  --hr-danger-50: #3a1f1f;
+
+  --hr-shadow: 0 0 0;
+  --hr-logo-plate: #dde8e6;
+}
+
+@theme inline {
+  --color-*: initial;
+
+  --color-white: #ffffff;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --color-page: var(--hr-page);
+  --color-surface: var(--hr-surface);
+  --color-mist: var(--hr-mist);
+  --color-card: var(--hr-card);
+  --color-line: var(--hr-line);
+  --color-field: var(--hr-field);
+
+  --color-ink: var(--hr-ink);
+  --color-ink-soft: var(--hr-ink-soft);
+  --color-muted: var(--hr-muted);
+
+  --color-brand-50: var(--hr-brand-50);
+  --color-brand-100: var(--hr-brand-100);
+  --color-brand-500: var(--hr-logo-teal);
+  --color-brand-700: var(--hr-brand-700);
+  --color-brand-800: var(--hr-brand-800);
+
+  --color-accent-50: var(--hr-accent-50);
+  --color-accent-500: var(--hr-logo-blue);
+  --color-accent-600: var(--hr-accent-600);
+  --color-accent-700: var(--hr-accent-700);
+
+  --color-primary: var(--hr-primary);
+  --color-primary-hover: var(--hr-primary-hover);
+  --color-on-primary: #ffffff;
+
+  --color-navy: var(--hr-navy);
+  --color-on-navy: var(--hr-on-navy);
+  --color-on-navy-soft: var(--hr-on-navy-soft);
+
+  --color-logo-plate: var(--hr-logo-plate);
+  --color-danger: var(--hr-danger);
+  --color-danger-50: var(--hr-danger-50);
+
+  --font-sans: var(--font-plex), system-ui, sans-serif;
+  /* Headings use the same font as the text (IBM Plex Sans Arabic); `font-display` is kept as an alias. */
+  --font-display: var(--font-plex), system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    background: var(--hr-page);
+  }
+
+  body {
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  @media (min-width: 768px) {
+    body {
+      font-size: 17px;
+    }
+  }
+
+  /* Default weights (a utility class on the element still wins): 700 main headings, 600 subheadings. */
+  h1,
+  h2 {
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  h3,
+  h4 {
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  /* Form fields and buttons use the site font too (browsers default them to the system font). */
+  input,
+  select,
+  textarea,
+  button {
+    font-family: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--hr-accent-600);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--hr-brand-100);
+  }
+}
+
+@layer components {
+  /* The highlighted words in a navy hero ("وظيفتك الجاية"). */
+  .text-highlight {
+    color: var(--hr-logo-blue);
+  }
+
+  /* A card with a plain outline. */
+  .card-box {
+    border: 1px solid var(--hr-line);
+    background: var(--hr-card);
+  }
+
+  /* ---------- Buttons ---------- */
+
+  .btn-primary {
+    background: var(--hr-primary);
+    color: #ffffff;
+    transition: background-color 150ms ease-out;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: var(--hr-primary-hover);
+  }
+
+  .btn-lift {
+    transition:
+      border-color 150ms ease-out,
+      color 150ms ease-out;
+  }
+
+  /* ---------- Clickable cards: the border darkens on hover ---------- */
+
+  .card-lift {
+    border: 1px solid var(--hr-line);
+    background: var(--hr-card);
+    transition: border-color 150ms ease-out;
+  }
+
+  .card-lift:hover,
+  .card-lift:focus-within {
+    border-color: var(--hr-logo-teal);
+  }
+
+  /* The arrow in a card moves forward a little on hover (left in RTL, right in LTR). */
+  .card-lift .card-arrow {
+    transition: transform 200ms ease-out;
+  }
+
+  .js .card-lift.reveal {
+    transition:
+      opacity 400ms ease-out,
+      transform 400ms ease-out,
+      border-color 150ms ease-out;
+  }
+
+  [dir="rtl"] .card-lift:hover .card-arrow {
+    transform: translateX(-6px);
+  }
+
+  [dir="ltr"] .card-lift:hover .card-arrow {
+    transform: translateX(6px) scaleX(-1);
+  }
+
+  [dir="ltr"] .card-lift .card-arrow {
+    transform: scaleX(-1);
+  }
+
+  /* ---------- Nav links: underline on hover, solid under the current page ---------- */
+
+  .nav-link {
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0.75rem;
+    bottom: 0.25rem;
+    height: 2px;
+    background: currentColor;
+    opacity: 0;
+    transition: opacity 150ms ease-out;
+  }
+
+  .nav-link:hover::after {
+    opacity: 0.35;
+  }
+
+  .nav-link[aria-current="page"]::after {
+    opacity: 1;
+  }
+
+  /* ---------- Scroll reveal (see RevealGroup) ---------- */
+  /* Only hidden when JS runs (`js` class set before paint by the root layout). */
+
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 400ms ease-out,
+      transform 400ms ease-out;
+  }
+
+  .js .reveal.is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Success tick that draws itself (stroke-dasharray on an SVG path). */
+  .check-draw circle {
+    stroke-dasharray: 160;
+    stroke-dashoffset: 160;
+    animation: draw 600ms ease-out forwards;
+  }
+
+  .check-draw path {
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: draw 400ms ease-out 450ms forwards;
+  }
+
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* The ✓ in "copied" pops in. */
+  .check-pop {
+    animation: pop 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes pop {
+    from {
+      transform: scale(0.4);
+    }
+  }
+
+  /* Toasts slide up from the bottom. */
+  .toast-in {
+    animation: toast-in 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @keyframes toast-in {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+  }
+
+  /* Images fade in. */
+  .js .reveal-zoom {
+    opacity: 0;
+    transition: opacity 500ms ease-out;
+  }
+
+  .js .reveal-zoom.is-revealed {
+    opacity: 1;
+  }
+
+  /* Safety net: if the page's JS is slow (>3s), show everything anyway. */
+  .js:not(.reveal-ready) :is(.reveal, .reveal-zoom) {
+    animation: reveal-fallback 600ms cubic-bezier(0.22, 1, 0.36, 1) 3s forwards;
+  }
+
+  @keyframes reveal-fallback {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ---------- Partner logos: continuous strip, pauses on hover ---------- */
+
+  .marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  /* The strip is always laid out left to right (dir="ltr" on .marquee) and moves the same way in both languages. */
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee var(--marquee-duration, 40s) linear infinite;
+  }
+
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+
+/* ---------- Header: shrinks and turns translucent once the page scrolls ---------- */
+/* Outside @layer so it wins over the header's own utility classes (bg-page, py-3). */
+
+.site-header {
+  transition:
+    background-color 300ms ease-out,
+    box-shadow 300ms ease-out,
+    border-color 300ms ease-out;
+}
+
+.site-header .header-inner {
+  transition: padding 300ms ease-out;
+}
+
+.site-header[data-scrolled="true"] {
+  background: color-mix(in srgb, var(--hr-page) 78%, transparent);
+  border-color: var(--hr-line);
+  box-shadow: 0 6px 20px -16px rgb(var(--hr-shadow) / 0.6);
+}
+
+.site-header[data-scrolled="true"] .header-inner {
+  padding-block: 0.5rem;
+}
+
+/* ---------- Founder cards (components/founder-cards.tsx) ---------- */
+
+.founder-card {
+  perspective: 1000px;
+}
+
+/* Tilts with the mouse (--tilt-x/--tilt-y are set from the pointer position, max 6°). */
+.founder-card-inner {
+  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform 250ms ease-out;
+}
+
+/* Duotone first; the real photo fades in over it (600ms) as both grow 4%. */
+.founder-photo {
+  transition:
+    opacity 600ms ease-out,
+    transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.founder-photo-real {
+  opacity: 0;
+}
+
+.founder-card[data-active="true"] .founder-photo-real {
+  opacity: 1;
+}
+
+.founder-card[data-active="true"] .founder-photo {
+  transform: scale(1.04);
+}
+
+/* The bio sits under the name (touch screens); with a mouse it slides up on hover. */
+.founder-bio {
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+.founder-bio > p {
+  min-height: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .founder-card:is(:hover, :focus-within) .founder-photo-real {
+    opacity: 1;
+  }
+
+  .founder-card:is(:hover, :focus-within) .founder-photo {
+    transform: scale(1.04);
+  }
+
+  .founder-bio {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-rows 450ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 300ms ease-out;
+  }
+
+  .founder-card:is(:hover, :focus-within) .founder-bio {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+
+/* ---------- FAQ accordion: the answer slides open/closed ---------- */
+/* Browsers without ::details-content (older Safari/Firefox) just open instantly. */
+
+:root {
+  interpolate-size: allow-keywords;
+}
+
+.faq details::details-content {
+  block-size: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    block-size 350ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 250ms ease-out,
+    content-visibility 350ms allow-discrete;
+}
+
+.faq details[open]::details-content {
+  block-size: auto;
+  opacity: 1;
+}
+
+/* ---------- Page transitions (React <ViewTransition> in the site layout) ---------- */
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 260ms;
+  animation-timing-function: ease-out;
+}
+
+/* ---------- Less motion when the device asks for it ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .js :is(.reveal, .reveal-zoom),
+  .check-pop,
+  .toast-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
+  }
+
+  .btn-primary,
+  .btn-lift,
+  .card-lift,
+  .js .card-lift.reveal,
+  .card-lift .card-arrow,
+  .nav-link::after,
+  .site-header,
+  .site-header .header-inner {
+    transition: none;
+  }
+
+  .btn-primary:hover:not(:disabled),
+  .btn-lift:hover:not(:disabled),
+  .card-lift:hover,
+  .js .card-lift.is-revealed:is(:hover, :focus-within) {
+    transform: none;
+  }
+
+  .check-draw :is(circle, path) {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+
+  /* No motion: the logos sit still, once each, centred. */
+  .marquee {
+    mask-image: none;
+  }
+
+  .marquee-track,
+  .marquee-track > ul {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: auto;
+  }
+
+  .marquee-track [data-repeat] {
+    display: none;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+
+  .faq details::details-content {
+    transition: none;
+  }
+
+  /* Founder cards: no tilt or zoom; the colours (and the bio) switch without motion. */
+  .founder-card-inner {
+    transform: none;
+    transition: none;
+  }
+
+  .founder-photo,
+  .founder-bio {
+    transition: none;
+  }
+
+  .founder-card .founder-photo {
+    transform: none !important;
+  }
+}
+
+/*
+ * Phones: when a page has the fixed apply bar, keep the bottom of the footer
+ * (address, social icons) clear of it.
+ */
+@media (max-width: 767px) {
+  body:has([data-sticky-apply]) .site-footer {
+    padding-bottom: 5.5rem;
+  }
+}
